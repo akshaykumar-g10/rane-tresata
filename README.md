@@ -317,6 +317,20 @@ python train_classifier_svm.py \
   --model_path ./models/semantic_classifier_svm.joblib
 ```
 
+#### Part A: Classify a single column (predict.py)
+
+Given a CSV file and a column name, `predict.py` prints the semantic type of that column as a single line:
+- `PhoneNumber`
+- `CompanyName`
+- `Country`
+- `Date`
+- `Other`
+```
+python predict.py \
+  --input path/to/file.csv \
+  --column ColumnName
+```
+
 #### Basic sanity check
 ```
 python sanity_check.py
@@ -326,12 +340,29 @@ python sanity_check.py
 ```
 python test_improved_pipeline.py
 ```
+#### Part B: Parse a new CSV (CLI parser)
 
-#### Parse a new CSV
+Run full classification + parsing on a CSV file. This:
+- Detects the best phone / company columns.
+- Produces an output CSV with:
+  - `PhoneNumber, Country, Number`
+  - `CompanyName, Name, Legal`
+
 ```
 python parser.py \
   --input path/to/your_file.csv \
   --output path/to/output.csv
 ```
+If --output is omitted, output.csv is written next to the input file.
 
+#### Run MCP server
 
+Start the MCP server to expose the same functionality (`list_files`, `column_prediction`, `parse_file`) to MCP-compatible clients:
+```
+python mcp_server.py
+```
+
+The server will run over stdio; your MCP client can then call:
+- `list_files()` – list available CSVs under data/
+- `column_prediction(file_path, column_name)` – get type + probabilities
+- `parse_file(file_path)` – run full parsing and write `output.csv`
