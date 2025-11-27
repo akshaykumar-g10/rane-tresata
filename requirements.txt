@@ -2,3 +2,6 @@ numpy>=1.24.0
 pandas>=1.5.0
 scikit-learn>=1.3.0
 joblib>=1.2.0
+
+# MCP server SDK (FastMCP lives here)
+mcp>=1.0.0
