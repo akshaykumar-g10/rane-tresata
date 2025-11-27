@@ -28,7 +28,6 @@ The focus is on **robust behavior on messy, real-world CSVs** rather than just r
 
 ## Repository Structure
 
-Recommended structure for this project:
 
 ```text
 .
@@ -59,11 +58,6 @@ Recommended structure for this project:
 ├─ requirements.txt           # Python dependencies (optional but recommended)
 └─ README.md                  # This file
 ```
-
-The structure is flexible as long as:
-- Code entrypoints remain in the root
-- Training data stays under data/
-- Models are saved under models/
 
 ## **Setup**
 
