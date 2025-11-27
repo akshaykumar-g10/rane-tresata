@@ -1,0 +1,408 @@
+a spol
+aat
+aansprakelijkheid
+ab
+actien gesellschaft
+actiengesellschaft
+actions
+ad
+ae
+ag
+agreement
+aj
+akc spol
+akciova
+aktiebolag
+aktien
+andelsselskab
+allmennaksjeselskap
+anonimi
+aksjeselskap
+aktiengesellschaft
+aktzii
+amba
+anonim ortakligi
+anonim sirketi
+anpartsselskab
+ans
+ansvar
+ansvarlig
+ao
+aps
+as
+asa
+auf
+av
+avoin
+ay
+begraenset
+beperkta
+berhad
+beschrankter
+besloten
+beteti
+bhd
+bt
+bv
+bvba
+cb
+cic
+cl
+co
+commandite
+commanditaire
+community
+commv
+compagnie
+company
+cooperatief ua
+cooperatieve
+cooperative
+corp
+corporation
+cpt
+cuideachta
+cv
+da
+dat
+dd
+de
+dinteret
+dionicko
+dno
+doo
+dooel
+drustvo
+druzhestvo
+economique
+ee
+en
+de
+por
+einkahlutafelag
+ehf
+entreprise
+esv
+etaireia
+eurl
+fdn
+felelossegu
+foundation
+fp
+free
+fz
+fzco
+fze
+general partnership
+gesellschaft
+gie
+gmbh
+gmbh co kg
+gp
+groupement
+gte
+haftung
+haftungsbeschrankt
+handelsbolag
+hb
+helseforetak
+hf
+inc
+incorporated
+interest
+ipjsc
+is
+javno
+jtd
+jawna
+kb
+kd
+kda
+kft
+kg
+komanditsabiedriba
+komandytne
+kommanditgesellschaft
+kgaa
+kht
+kommandiittiyhtiö
+kommandit
+kozhasznu
+kozos
+kommanditbolag
+korlatolt
+ks
+kt
+kv
+ky
+lc
+lda
+limitada
+limitata
+limited
+limitee
+limited liability
+llc
+lllp
+llp
+lp
+lt
+ltd
+ltda
+ltee
+lv
+mb
+mbh
+mchj
+med
+met
+mit
+nl
+nuf
+nv
+nyrt
+oaj
+oao
+od
+odgovornoscu
+odgovornost
+odpowiedzialnoscia
+oe
+offene
+og
+one person
+ood
+ooo
+opc
+ogranicena
+ogranicenom
+ograniczona
+osakeyhtio
+oy
+oyj
+pa
+partnerska
+pc
+per
+phoibli
+pjs
+plc
+pllc
+plt
+pp
+ppa
+private
+privee
+professional
+proprietary
+ps
+# pt
+pte
+pto
+pty
+pty ltd
+public
+public joint stock company
+pvt
+qk
+responsabilite
+responsabilita
+rt
+s de rl
+s en c
+sa
+sae
+sal
+saoc
+saog
+sapa
+sar
+sarl
+sas
+sasu
+sca
+scpa
+scra
+scs
+sd
+sdn
+sdn bhd
+se
+secs
+selskap
+sendirin
+ses
+sf
+sgp
+sha
+sia
+sicar
+sicav
+simplifiee
+ska
+sl
+slp
+slne
+smba
+smcprivate
+smcpvt
+smpc
+snc
+soccol
+sociedad anonima operadora
+societa per azioni
+societe anonyme
+sp z oo
+sp zoo
+spzoo
+spa
+spj
+spk
+spol s ro
+spolecnost
+spolka zoo
+spp
+sprl
+srl
+sro
+ss
+stjornarvold
+stg
+tapui
+tarsasag
+teo
+theoranta
+tov
+tovarystvo
+trgovacko
+obch spol
+uab
+ug
+ultd
+unipersonnelle
+unlimited
+unltd
+vallalat
+vat
+vennootschap
+verwaltungsgesellschaft
+vof
+vos
+vzw
+xk
+yhtio
+yoaj
+zat
+zone
+zrt
+kscp
+ab publ
+ab public
+qpsc
+company qpsc
+sjsc
+co sjsc
+pjsc
+pcl
+public company limited
+saa
+sai
+tas
+corporation sjsc
+bsc
+abp
+publikt aktiebolag
+saic
+sa esp
+a s
+co kscp
+company kscp
+saf
+real estate investment trust
+reit
+saa
+pjsc
+kk
+kk
+kabushiki kaisha
+sociedad anonima bursatil de capital variable
+sab de cv
+sab
+joint stock company
+jsc
+company jsc
+saai
+sociedad anonima agricola industrial
+sacifia
+anonima comercial industrial financiera inmobiliaria y agropecuaria
+saci
+sakp
+as
+tao
+bancorp
+bancorporation
+fc spa
+football club spa
+# tbk pt
+
+# albania
+
+shpk
+shk
+shoqeri
+pergjegjesi
+kufizuar
+aksionere
+komandite
+kolektive
+dege
+zyre
+perfaqesimit
+
+#argentina
+
+responsabilidad
+comandita simple
+acciones
+colectiva
+capital industria
+estado
+garantia
+reciproca
+simplificada
+unipersonal
+soc col
+scei
+sgr
+sau
+
+#australia
+
+ilp
+
+#Bosnia and herzegovina
+
+akcionarsko
+neogranicenom
+solidarnom
+komanditno
+samostalni
+preduzetnik
+
+#Brazil
+
+sociedade
+simples
+coletivo
+cooperativa
+publica
+privada
+publico
+
+#chile
+eirl
+empresa
+individual
+
+#columbia
+sc
