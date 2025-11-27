@@ -11,7 +11,7 @@ Intended to be used by MCP-compatible clients (ChatGPT, Claude, etc.).
 """
 
 import os
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional
 
 import pandas as pd
 
@@ -19,24 +19,16 @@ import pandas as pd
 from mcp.server.fastmcp import FastMCP
 
 # Reuse our existing logic
-from semantic_model import load_model, predict_column_type, predict_all_columns
-from parsers import parse_phone, parse_company, load_legal_suffixes
+from semantic_model import load_model, predict_column_type
+from parser import (
+    find_best_columns,
+    parse_phone_value,
+    parse_company_value,
+    load_legal_terms,
+)
 
-# NOTE: we duplicate a bit of logic from parser.py here to avoid circular imports.
-
-
-# -------------------------------------------------------------------
-# Configuration
-# -------------------------------------------------------------------
-
-# Base directory where input files live (you can adjust)
+# Base directory where input files live
 BASE_DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
-
-# Thresholds for deciding if a file really has a phone/company column
-PHONE_MIN_PROB = 0.60          # min avg PHONE prob for best column
-COMPANY_MIN_PROB = 0.55        # min avg COMPANY prob for best column
-PHONE_MIN_MARGIN = 0.05        # min gap vs 2nd-best PHONE column
-COMPANY_MIN_MARGIN = 0.05      # min gap vs 2nd-best COMPANY column
 
 # Label mapping to human-facing names (same as predict.py)
 LABEL_TO_OUTPUT = {
@@ -52,76 +44,13 @@ mcp = FastMCP("tresata_semantic_server")
 
 
 # -------------------------------------------------------------------
-# Helper functions (reused from parser.py logic)
+# Helper functions
 # -------------------------------------------------------------------
-
-
-
-def find_best_columns(df: pd.DataFrame):
-    """
-    Use the classifier to predict all columns and pick the best
-    Phone and Company columns in a robust way.
-
-    Returns:
-        (best_phone_col, best_company_col, all_results)
-
-        - best_phone_col: column name or None
-        - best_company_col: column name or None
-        - all_results: dict[col] = (label, proba_dict)
-    """
-    model = load_model()
-    results = predict_all_columns(df, model=model, sample_size=200)
-
-    # Track best & second-best PHONE columns
-    best_phone_col = None
-    best_phone_prob = -1.0
-    second_phone_prob = -1.0
-
-    # Track best & second-best COMPANY columns
-    best_company_col = None
-    best_company_prob = -1.0
-    second_company_prob = -1.0
-
-    for col, (_label, probs) in results.items():
-        phone_prob = float(probs.get("PHONE", 0.0))
-        company_prob = float(probs.get("COMPANY", 0.0))
-
-        # Update PHONE ranking
-        if phone_prob > best_phone_prob:
-            second_phone_prob = best_phone_prob
-            best_phone_prob = phone_prob
-            best_phone_col = col
-        elif phone_prob > second_phone_prob:
-            second_phone_prob = phone_prob
-
-        # Update COMPANY ranking
-        if company_prob > best_company_prob:
-            second_company_prob = best_company_prob
-            best_company_prob = company_prob
-            best_company_col = col
-        elif company_prob > second_company_prob:
-            second_company_prob = company_prob
-
-    # Compute margins between best and 2nd-best columns for each type
-    phone_margin = best_phone_prob - max(second_phone_prob, 0.0)
-    company_margin = best_company_prob - max(second_company_prob, 0.0)
-
-    # Apply robust thresholds:
-    #  - require that best column is strong enough (min prob)
-    #  - and clearly better than the second-best for that type (margin)
-    if best_phone_prob < PHONE_MIN_PROB or phone_margin < PHONE_MIN_MARGIN:
-        best_phone_col = None
-
-    if best_company_prob < COMPANY_MIN_PROB or company_margin < COMPANY_MIN_MARGIN:
-        best_company_col = None
-
-    return best_phone_col, best_company_col, results
-
 
 def build_output_dataframe(
     df: pd.DataFrame,
     phone_col: Optional[str],
-    company_col: Optional[str]
+    company_col: Optional[str],
 ) -> pd.DataFrame:
     """
     Construct the output DataFrame according to spec.
@@ -144,9 +73,10 @@ def build_output_dataframe(
     name_series = pd.Series([""] * n_rows, index=df.index, dtype=object)
     legal_series = pd.Series([""] * n_rows, index=df.index, dtype=object)
 
-    legal_terms = load_legal_suffixes()
+    # Load legal suffixes once
+    legal_terms = load_legal_terms(BASE_DATA_DIR)
 
-    # Phone parsing
+    # Phone parsing (simple per-row parsing; CLI parser has more gating logic)
     if phone_col is not None:
         original_phone_col = df[phone_col].astype(str)
         phone_series = original_phone_col.copy()
@@ -155,7 +85,7 @@ def build_output_dataframe(
         parsed_numbers = []
 
         for v in original_phone_col:
-            ctry, num = parse_phone(v)
+            ctry, num = parse_phone_value(v)
             parsed_countries.append(ctry)
             parsed_numbers.append(num)
 
@@ -171,7 +101,7 @@ def build_output_dataframe(
         parsed_legals = []
 
         for v in original_company_col:
-            name, legal = parse_company(v, legal_terms=legal_terms)
+            name, legal = parse_company_value(v, legal_terms=legal_terms)
             parsed_names.append(name)
             parsed_legals.append(legal)
 
@@ -231,7 +161,7 @@ def list_files() -> List[str]:
     """
     List available CSV files that this MCP server can process.
 
-    Returns a list of absolute paths (or relative names) to CSV files
+    Returns a list of absolute paths to CSV files
     under the configured BASE_DATA_DIR.
     """
     if not os.path.isdir(BASE_DATA_DIR):
@@ -273,7 +203,9 @@ def column_prediction(file_path: str, column_name: str) -> Dict[str, Any]:
         )
 
     model = load_model()
-    internal_label, proba_dict = predict_column_type(df, column_name, model=model, sample_size=200)
+    internal_label, proba_dict = predict_column_type(
+        df, column_name, model=model, sample_size=200
+    )
     semantic_type = LABEL_TO_OUTPUT.get(internal_label, internal_label)
 
     return {
@@ -292,7 +224,7 @@ def parse_file(file_path: str) -> Dict[str, Any]:
 
     Steps:
       - Load file.
-      - Identify best Phone and Company columns.
+      - Identify best Phone and Company columns (using parser.find_best_columns).
       - Parse them into:
             PhoneNumber, Country, Number, CompanyName, Name, Legal
       - Write output.csv in the same directory as the input.
