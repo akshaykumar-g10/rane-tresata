@@ -61,13 +61,10 @@ Recommended structure for this project:
 └─ README.md                  # This file
 ```
 
-You can adapt the structure slightly as long as:
-
-Code entrypoints remain in the root,
-
-Data is under data/,
-
-Models are saved under models/.
+The structure is flexible as long as:
+- Code entrypoints remain in the root
+- Training data stays under data/
+- Models are saved under models/
 
 Setup
 Python version
